@@ -14,15 +14,9 @@ const auth = getAuth(app);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  // Create user
+  // Register new user
   const createUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
-  };
-
-  // Logout
-
-  const logOut = () => {
-    return signOut(auth);
   };
 
   // Login
@@ -31,6 +25,11 @@ const AuthProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
+  // Logout
+
+  const logOut = () => {
+    return signOut(auth);
+  };
   // Weather user is there or not! checking!
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentuser) => {

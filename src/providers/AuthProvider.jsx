@@ -13,34 +13,38 @@ const auth = getAuth(app);
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-
+  const [loading, setLoading] = useState(true);
   // Register new user
   const createUser = (email, password) => {
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
   // Login
 
   const signIn = (email, password) => {
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   // Logout
 
   const logOut = () => {
+    setLoading(true);
     return signOut(auth);
   };
   // Weather user is there or not! checking!
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentuser) => {
       console.log("User in thea uth state changed", currentuser);
+      setLoading(false);
       setUser(currentuser);
     });
     return () => {
       unSubscribe();
     };
   }, []);
-  const authInfo = { user, createUser, logOut, signIn };
+  const authInfo = { user, loading, createUser, logOut, signIn };
   return (
     <div>
       <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
